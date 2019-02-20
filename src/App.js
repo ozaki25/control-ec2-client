@@ -1,14 +1,26 @@
 import React from 'react';
-import { Navbar } from '@blueprintjs/core';
+import Header from './components/Header';
+import Table from './components/Table';
+import api from './api';
 
 function App() {
+  const [instances, setInstances] = React.useState([]);
+
+  const fetchInstances = async () => {
+    const { InstanceStatuses } = await api.getInstances();
+    console.log(InstanceStatuses);
+    setInstances(InstanceStatuses);
+  };
+
+  React.useEffect(() => {
+    fetchInstances();
+  }, []);
+
   return (
-    <Navbar className="bp3-dark">
-      <Navbar.Group>
-        <Navbar.Heading>EC2 Manager</Navbar.Heading>
-        <Navbar.Divider />
-      </Navbar.Group>
-    </Navbar>
+    <>
+      <Header />
+      <Table instances={instances} />
+    </>
   );
 }
 
