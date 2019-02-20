@@ -1,13 +1,10 @@
 import React from 'react';
-import { Navbar } from '@blueprintjs/core';
+import { Navbar, NavbarBrand } from 'reactstrap';
 
 function Header() {
   return (
-    <Navbar className="bp3-dark">
-      <Navbar.Group>
-        <Navbar.Heading>EC2 Manager</Navbar.Heading>
-        <Navbar.Divider />
-      </Navbar.Group>
+    <Navbar color="dark" dark>
+      <NavbarBrand href="/">EC2 Manager</NavbarBrand>
     </Navbar>
   );
 }
