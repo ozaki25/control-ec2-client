@@ -1,10 +1,14 @@
 const api = process.env.REACT_APP_API;
-const getInstancesApi = `${api}status`;
+const getInstancesApi = `${api}instances`;
 
 const getInstances = async () => {
   try {
     const res = await fetch(getInstancesApi);
-    return res.json();
+    if (res.ok) {
+      return res.json();
+    } else {
+      console.log(res);
+    }
   } catch (e) {
     alert(e.toString());
     console.log(e);

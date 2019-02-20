@@ -1,29 +1,37 @@
 import React from 'react';
-import { HTMLTable } from '@blueprintjs/core';
+import { Table as BSTable } from 'reactstrap';
+
+function TableData({ InstanceId, InstanceType, KeyName, State: { Name } }) {
+  return (
+    <tr>
+      <td>{KeyName}</td>
+      <td>{InstanceId}</td>
+      <td>{InstanceType}</td>
+      <td>{Name}</td>
+      <td />
+    </tr>
+  );
+}
 
 function Table({ instances }) {
   console.log(instances);
   return instances.length ? (
-    <HTMLTable bordered>
+    <BSTable striped>
       <thead>
         <tr>
+          <th>KeyName</th>
           <th>InstanceID</th>
-          <th>InstanceState</th>
-          <th />
+          <th>InstanceType</th>
+          <th>State</th>
           <th />
         </tr>
       </thead>
       <tbody>
-        {instances.map(({ InstanceId, InstanceState }) => (
-          <tr key={InstanceId}>
-            <td>{InstanceId}</td>
-            <td>{`${InstanceState.Code}: ${InstanceState.Name}`}</td>
-            <td />
-            <td />
-          </tr>
+        {instances.map(props => (
+          <TableData key={props.InstanceId} {...props} />
         ))}
       </tbody>
-    </HTMLTable>
+    </BSTable>
   ) : (
     <p>Loading...</p>
   );

@@ -1,15 +1,24 @@
 import React from 'react';
+import { Container } from 'reactstrap';
 import Header from './components/Header';
 import Table from './components/Table';
 import api from './api';
+
+const styles = {
+  container: { paddingTop: '15px' },
+};
 
 function App() {
   const [instances, setInstances] = React.useState([]);
 
   const fetchInstances = async () => {
-    const { InstanceStatuses } = await api.getInstances();
-    console.log(InstanceStatuses);
-    setInstances(InstanceStatuses);
+    try {
+      const { Reservations } = await api.getInstances();
+      console.log(Reservations);
+      setInstances([...Reservations.map(r => [...r.Instances])].flat());
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   React.useEffect(() => {
@@ -19,7 +28,9 @@ function App() {
   return (
     <>
       <Header />
-      <Table instances={instances} />
+      <Container style={styles.container}>
+        <Table instances={instances} />
+      </Container>
     </>
   );
 }
