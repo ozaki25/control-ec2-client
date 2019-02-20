@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container } from 'reactstrap';
+import { Button, Container } from 'reactstrap';
 import Header from './components/Header';
 import Table from './components/Table';
 import api from './api';
@@ -30,6 +30,7 @@ function App() {
       <Header />
       <Container style={styles.container}>
         <Table instances={instances} />
+        <Button onClick={{}}>Reload</Button>
       </Container>
     </>
   );
