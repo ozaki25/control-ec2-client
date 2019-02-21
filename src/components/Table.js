@@ -21,7 +21,7 @@ function TableRow({
 }) {
   // prettier-ignore
   const color = Code === STATUS.RUNNING ? 'table-success' :
-                Code === STATUS.STOPPED ? 'table-secondary' : 'table-info';
+                Code === STATUS.STOPPED ? 'table-secondary' : 'table-warning';
   return (
     <tr>
       <td>{KeyName}</td>
