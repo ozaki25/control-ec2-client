@@ -17,11 +17,9 @@ function App() {
   }, []);
 
   const fetchInstances = async () => {
-    try {
-      const { Reservations } = await api.getInstances();
-      setInstances([...Reservations.map(r => [...r.Instances])].flat());
-    } catch (e) {
-      console.log(e);
+    const result = await api.getInstances();
+    if (result) {
+      setInstances([...result.Reservations.map(r => [...r.Instances])].flat());
     }
   };
 
