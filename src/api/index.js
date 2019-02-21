@@ -21,6 +21,9 @@ const startInstances = async body => {
   try {
     const res = await fetch(startInstancesApi, {
       method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+      },
       body: JSON.stringify(body),
     });
     if (res.ok) {
@@ -38,6 +41,9 @@ const stopInstances = async body => {
   try {
     const res = await fetch(stopInstancesApi, {
       method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+      },
       body: JSON.stringify(body),
     });
     if (res.ok) {
