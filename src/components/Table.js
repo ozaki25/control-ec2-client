@@ -1,6 +1,15 @@
 import React from 'react';
 import { Button, Table as BSTable } from 'reactstrap';
 
+const STATUS = {
+  PENDING: 0,
+  RUNNING: 16,
+  SHUTTING_DOWN: 32,
+  TERMINATED: 48,
+  STOPPING: 64,
+  STOPPED: 80,
+};
+
 function TableRow({
   InstanceId,
   InstanceType,
@@ -10,17 +19,20 @@ function TableRow({
   onClickStart,
   onClickStop,
 }) {
+  // prettier-ignore
+  const color = Code === STATUS.RUNNING ? 'table-success' :
+                Code === STATUS.STOPPED ? 'table-secondary' : 'table-info';
   return (
     <tr>
       <td>{KeyName}</td>
       <td>{InstanceId}</td>
       <td>{InstanceType}</td>
-      <td>{Name}</td>
+      <td className={color}>{Name}</td>
       <td>{PublicIpAddress}</td>
       <td>
         <Button
           size="sm"
-          disabled={Code !== 80}
+          disabled={Code !== STATUS.STOPPED}
           onClick={() => onClickStart(InstanceId)}
         >
           Start
@@ -29,7 +41,7 @@ function TableRow({
       <td>
         <Button
           size="sm"
-          disabled={Code !== 16}
+          disabled={Code !== STATUS.RUNNING}
           onClick={() => onClickStop(InstanceId)}
         >
           Stop
