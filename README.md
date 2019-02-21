@@ -9,6 +9,8 @@ brew install node
 npm i -g yarn
 ```
 
+- clone this repository
+
 ```bash
 git clone https://github.com/ozaki25/control-ec2-client.git
 cd control-ec2-client
@@ -17,7 +19,7 @@ yarn
 
 ### Run
 
-- set endpoint
+- create env file
 
 ```bash
 touch .env
