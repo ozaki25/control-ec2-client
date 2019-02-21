@@ -1,31 +1,14 @@
 import React from 'react';
 import { Button, Table as BSTable } from 'reactstrap';
-import api from '../api';
 
-const onClickStart = async id => {
-  try {
-    const res = await api.startInstances({ InstanceIds: [id] });
-    console.log(res);
-  } catch (e) {
-    console.log(e);
-  }
-};
-
-const onClickStop = async id => {
-  try {
-    const res = await api.stopInstances({ InstanceIds: [id] });
-    console.log(res);
-  } catch (e) {
-    console.log(e);
-  }
-};
-
-function TableData({
+function TableRow({
   InstanceId,
   InstanceType,
   KeyName,
   PublicIpAddress,
   State: { Code, Name },
+  onClickStart,
+  onClickStop,
 }) {
   return (
     <tr>
@@ -56,7 +39,7 @@ function TableData({
   );
 }
 
-function Table({ instances }) {
+function Table({ instances, onClickStart, onClickStop }) {
   console.log(instances);
   return instances.length ? (
     <BSTable striped>
@@ -73,7 +56,12 @@ function Table({ instances }) {
       </thead>
       <tbody>
         {instances.map(props => (
-          <TableData key={props.InstanceId} {...props} />
+          <TableRow
+            key={props.InstanceId}
+            {...props}
+            onClickStart={onClickStart}
+            onClickStop={onClickStop}
+          />
         ))}
       </tbody>
     </BSTable>

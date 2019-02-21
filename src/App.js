@@ -11,26 +11,40 @@ const styles = {
 function App() {
   const [instances, setInstances] = React.useState([]);
 
+  React.useEffect(() => {
+    fetchInstances();
+    setInterval(fetchInstances, 30000);
+  }, []);
+
   const fetchInstances = async () => {
     try {
       const { Reservations } = await api.getInstances();
-      console.log(Reservations);
       setInstances([...Reservations.map(r => [...r.Instances])].flat());
     } catch (e) {
       console.log(e);
     }
   };
 
-  React.useEffect(() => {
+  const onClickStart = async id => {
+    await api.startInstances({ InstanceIds: [id] });
     fetchInstances();
-  }, []);
+  };
+
+  const onClickStop = async id => {
+    await api.stopInstances({ InstanceIds: [id] });
+    fetchInstances();
+  };
 
   return (
     <>
       <Header />
       <Container style={styles.container}>
-        <Table instances={instances} />
-        <Button onClick={{}}>Reload</Button>
+        <Table
+          instances={instances}
+          onClickStart={onClickStart}
+          onClickStop={onClickStop}
+        />
+        <Button onClick={fetchInstances}>Reload</Button>
       </Container>
     </>
   );
