@@ -1,43 +1,38 @@
 import React from 'react';
 import { Button, Table as BSTable } from 'reactstrap';
-import api from '../api';
 
-const onClickStart = async id => {
-  try {
-    const res = await api.startInstances({ InstanceIds: [id] });
-    console.log(res);
-  } catch (e) {
-    console.log(e);
-  }
+const STATUS = {
+  PENDING: 0,
+  RUNNING: 16,
+  SHUTTING_DOWN: 32,
+  TERMINATED: 48,
+  STOPPING: 64,
+  STOPPED: 80,
 };
 
-const onClickStop = async id => {
-  try {
-    const res = await api.stopInstances({ InstanceIds: [id] });
-    console.log(res);
-  } catch (e) {
-    console.log(e);
-  }
-};
-
-function TableData({
+function TableRow({
   InstanceId,
   InstanceType,
   KeyName,
   PublicIpAddress,
   State: { Code, Name },
+  onClickStart,
+  onClickStop,
 }) {
+  // prettier-ignore
+  const color = Code === STATUS.RUNNING ? 'table-success' :
+                Code === STATUS.STOPPED ? 'table-secondary' : 'table-warning';
   return (
     <tr>
       <td>{KeyName}</td>
       <td>{InstanceId}</td>
       <td>{InstanceType}</td>
-      <td>{Name}</td>
+      <td className={color}>{Name}</td>
       <td>{PublicIpAddress}</td>
       <td>
         <Button
           size="sm"
-          disabled={Code !== 80}
+          disabled={Code !== STATUS.STOPPED}
           onClick={() => onClickStart(InstanceId)}
         >
           Start
@@ -46,7 +41,7 @@ function TableData({
       <td>
         <Button
           size="sm"
-          disabled={Code !== 16}
+          disabled={Code !== STATUS.RUNNING}
           onClick={() => onClickStop(InstanceId)}
         >
           Stop
@@ -56,7 +51,7 @@ function TableData({
   );
 }
 
-function Table({ instances }) {
+function Table({ instances, onClickStart, onClickStop }) {
   console.log(instances);
   return instances.length ? (
     <BSTable striped>
@@ -73,7 +68,12 @@ function Table({ instances }) {
       </thead>
       <tbody>
         {instances.map(props => (
-          <TableData key={props.InstanceId} {...props} />
+          <TableRow
+            key={props.InstanceId}
+            {...props}
+            onClickStart={onClickStart}
+            onClickStop={onClickStop}
+          />
         ))}
       </tbody>
     </BSTable>
