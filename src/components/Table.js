@@ -52,7 +52,6 @@ function TableRow({
 }
 
 function Table({ instances, onClickStart, onClickStop }) {
-  console.log(instances);
   return instances.length ? (
     <BSTable striped>
       <thead>
