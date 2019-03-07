@@ -21,13 +21,11 @@ function App() {
 
   // 起動時と`authenticated`の値が更新された時に実行される
   React.useEffect(() => {
-    console.log('load', { authenticated, user, instances });
     if (authenticated) getUserFromKeycloak();
   }, [authenticated]);
 
   // 起動時と`user`の値が更新された時に実行される
   React.useEffect(() => {
-    console.log('get', { authenticated, user, instances });
     if (authenticated) {
       fetchInstances();
       setInterval(fetchInstances, 30000);
