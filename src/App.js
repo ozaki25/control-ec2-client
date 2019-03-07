@@ -33,7 +33,6 @@ function App() {
   }, [user]);
 
   const initKeycloak = () => {
-    // prettier-ignore
     console.log('App#initKeycloak', { authenticated, user, instances }, new Date());
     const onSuccess = authenticated => setAuthenticated(authenticated);
     const onError = () => alert('failed to initialize');
@@ -41,7 +40,6 @@ function App() {
   };
 
   const getUserFromKeycloak = () => {
-    // prettier-ignore
     console.log('App#getUserFromKeycloak', { authenticated, user, instances }, new Date());
     const onSuccess = ({ given_name, family_name, email, sub }) =>
       setUser({ id: sub, name: `${given_name}.${family_name}`, email });
@@ -50,7 +48,6 @@ function App() {
   };
 
   const fetchInstances = async () => {
-    // prettier-ignore
     console.log('App#fetchInstances', { authenticated, user, instances }, new Date());
     const result = await api.getInstances();
     if (result) {
